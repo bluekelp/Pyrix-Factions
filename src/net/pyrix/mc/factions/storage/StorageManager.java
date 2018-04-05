@@ -1,6 +1,8 @@
 package net.pyrix.mc.factions.storage;
 
-public class StorageManager {
+import net.pyrix.mc.factions.Manager;
+
+public class StorageManager extends Manager {
 
 	public static StorageManager get;
 
@@ -11,7 +13,8 @@ public class StorageManager {
 		onEnable();
 	}
 
-	void onEnable() {
+	@Override
+	public void onEnable() {
 		get = this;
 		FPlayerStorage = new FPlayerStorage();
 		FactionStorage = new FactionStorage();
