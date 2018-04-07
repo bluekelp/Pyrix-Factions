@@ -8,6 +8,7 @@ public class StorageManager extends Manager {
 
 	public FPlayerStorage FPlayerStorage;
 	public FactionStorage FactionStorage;
+	public ConfigurationStorage ConfigurationStorage;
 
 	public StorageManager() {
 		onEnable();
@@ -18,6 +19,6 @@ public class StorageManager extends Manager {
 		get = this;
 		FPlayerStorage = new FPlayerStorage();
 		FactionStorage = new FactionStorage();
-
+		ConfigurationStorage = new ConfigurationStorage();
 	}
 }

@@ -1,31 +1,29 @@
 package net.pyrix.mc.factions;
 
 import java.io.File;
-import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.util.Set;
 
-import org.bukkit.configuration.file.FileConfiguration;
-import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.reflections.Reflections;
 import org.reflections.scanners.SubTypesScanner;
 
 public class Factions extends JavaPlugin {
 
-	File factionsYml = new File(this.getDataFolder() + "/factions.yml");
-	FileConfiguration factionsConfig = YamlConfiguration.loadConfiguration(factionsYml);
+	File factionsDir = new File(this.getDataFolder() + "/factions");
+
+	private static Factions factions;
+
+	public static Factions getInstance() {
+		return factions;
+	}
 
 	public void onEnable() {
+		factions = this;
 		// save factions data file
-		if (!factionsYml.exists()) {
-			try {
-				factionsConfig.save(factionsYml);
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
+		if (!factionsDir.exists()) {
+			factionsDir.mkdir();
 		}
-
 		initializeClasses();
 
 	}
