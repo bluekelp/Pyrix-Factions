@@ -5,8 +5,12 @@ import net.pyrix.mc.factions.Manager;
 
 public class CommandManager extends Manager {
 
+	private AliasManager alias;
+
 	@Override
 	public void onEnable() {
+		alias = new AliasManager();
+		Factions.getInstance().getLogger().info("Registering Commands...");
 		initializeAlias();
 	}
 
@@ -14,7 +18,8 @@ public class CommandManager extends Manager {
 
 	private void initializeAlias() {
 		for (String a : aliases) {
-			Factions.getInstance().getCommand(a).setExecutor(new AliasManager());
+			Factions.getInstance().getLogger().info("Registering Alias: " + a);
+			Factions.getInstance().getCommand(a).setExecutor(alias);
 		}
 
 	}

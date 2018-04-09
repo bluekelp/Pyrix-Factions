@@ -1,20 +1,21 @@
 package net.pyrix.mc.factions.commands;
 
+import java.lang.reflect.InvocationTargetException;
 import java.util.Arrays;
+import java.util.Set;
 
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
+import org.reflections.Reflections;
+import org.reflections.scanners.SubTypesScanner;
 
-import net.pyrix.mc.factions.commands.faction.CmdFactionCreate;
-import net.pyrix.mc.factions.commands.faction.CmdFactionList;
-import net.pyrix.mc.factions.commands.faction.CmdFactionRemove;
-import net.pyrix.mc.factions.commands.faction.CmdHelp;
+public class AliasManager implements CommandExecutor {
 
-public class AliasManager extends CommandManager implements CommandExecutor {
+	private Reflections reflections = new Reflections("net.pyrix.mc.factions.commands.faction", new SubTypesScanner(false));;
 
-	protected final FactionsCommand[] commands = { new CmdFactionCreate(), new CmdFactionList(), new CmdFactionRemove(), new CmdHelp() };
+	protected final Set<Class<? extends FactionsCommand>> commands = reflections.getSubTypesOf(FactionsCommand.class);
 
 	@Override
 	// Called when player runs /f /fac or /faction
@@ -25,11 +26,17 @@ public class AliasManager extends CommandManager implements CommandExecutor {
 				return false;
 			}
 		}
-		for (FactionsCommand command : commands) {
-			for (String[] arguments : command.getArgs()) {
-				if (Arrays.equals(arguments, args)) {
-					return command.onCommand(sender, cmd, args);
+		for (Class<? extends FactionsCommand> command : commands) {
+			try {
+				for (String[] arguments : (String[][]) command.getDeclaredMethod("getArgs").invoke(command.getConstructor().newInstance())) {
+					if (Arrays.equals(arguments, args)) {
+						return (boolean) command.getDeclaredMethod("onCommand", CommandSender.class, Command.class, String[].class).invoke(command.getConstructor().newInstance(),
+								sender, cmd, args);
+					}
 				}
+			} catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException | NoSuchMethodException | SecurityException | InstantiationException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
 			}
 		}
 		return false;

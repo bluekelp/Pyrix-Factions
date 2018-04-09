@@ -1,6 +1,0 @@
-name: PyrixFactions
-version: 1.0-ALPHA
-main: net.pyrix.mc.factions.Factions
-description: Custom developed factions plugin for custom gamemode
-author: geekles
-

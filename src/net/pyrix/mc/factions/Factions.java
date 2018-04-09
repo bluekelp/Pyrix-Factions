@@ -20,15 +20,24 @@ public class Factions extends JavaPlugin {
 
 	public void onEnable() {
 		factions = this;
-		// save factions data file
+
 		if (!factionsDir.exists()) {
 			factionsDir.mkdir();
 		}
-		initializeClasses();
+
+		Set<Class<? extends Manager>> debugClasses = initializeClasses();
+		if (debugClasses != null) {
+			getLogger().info("Unsuccessfully initialized classes ->: ");
+			for (Class<?> c : debugClasses) {
+				getLogger().info("> " + c.getName());
+			}
+			return;
+		}
+		getLogger().info("PyrixFactions successfully initialized! ^ω^");
 
 	}
 
-	private void initializeClasses() {
+	private Set<Class<? extends Manager>> initializeClasses() {
 		// Initializes only classes that extend Manager first
 		Reflections reflections = new Reflections("net.pyrix.mc.factions", new SubTypesScanner(false));
 
@@ -38,8 +47,10 @@ public class Factions extends JavaPlugin {
 				c.getDeclaredMethod("onEnable").invoke(c.getConstructor().newInstance());
 			} catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException | NoSuchMethodException | SecurityException | InstantiationException e) {
 				e.printStackTrace();
+				return allManagerClasses;
 			}
 		}
+		return null;
 
 	}
 

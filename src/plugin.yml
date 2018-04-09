@@ -1,0 +1,12 @@
+name: ${project.artifactId}
+version: ${project.version}
+main: ${project.groupId}
+description: Custom developed factions plugin for custom gamemode
+author: geekles
+commands:
+  faction:
+    description: Main alias command for factions. 
+    aliases: [f, fac]
+    permission: pfacs.use
+    usage: /faction [args]
+
