@@ -6,7 +6,6 @@ import org.bukkit.entity.Player;
 
 import net.pyrix.mc.factions.commands.FactionsCommand;
 import net.pyrix.mc.factions.storage.StorageManager;
-import net.pyrix.mc.factions.utils.CommandText;
 import net.pyrix.mc.factions.utils.TextConvert;
 
 public class CmdHelp extends FactionsCommand {
@@ -17,8 +16,8 @@ public class CmdHelp extends FactionsCommand {
 	public boolean onCommand(CommandSender sender, Command cmd, String[] args) {
 		if (sender instanceof Player) {
 			Player player = (Player) sender;
-			for (String msg : StorageManager.get.ConfigurationStorage.getCommandHelpMessage()) {
-				player.spigot().sendMessage(new TextConvert(player, msg, "&7Click Me!", new CommandText("/f help story")).convertToTextComponent());
+			for (TextConvert text : StorageManager.get.ConfigurationStorage.getCommandHelpMessage()) {
+				player.spigot().sendMessage(text.convert());
 			}
 			return true;
 		} else {

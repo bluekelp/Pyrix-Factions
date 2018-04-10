@@ -1,5 +1,9 @@
 package net.pyrix.mc.factions.utils;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import org.apache.commons.lang3.StringUtils;
 import org.bukkit.entity.Player;
 
 import net.md_5.bungee.api.chat.BaseComponent;
@@ -12,36 +16,12 @@ public class TextConvert {
 
 	private Player player;
 	private String message;
-	private String hoverText;
-	private String command;
 
-	public TextConvert(Player player, String message, String hoverText, CommandText command) {
+	private List<TextComponentPlaceholder> placeholders = new ArrayList<TextComponentPlaceholder>();
+
+	public TextConvert(Player player, String message) {
 		this.player = player;
 		this.message = message;
-		this.hoverText = hoverText;
-		this.command = command.getCommand();
-	}
-
-	public TextConvert(Player player, String message, String hoverText) {
-		this.player = player;
-		this.message = message;
-		this.hoverText = hoverText;
-	}
-
-	public TextConvert(Player player, String message, CommandText command) {
-		this.player = player;
-		this.message = message;
-		this.command = command.getCommand();
-	}
-
-	public TextConvert(String message, String hoverText) {
-		this.message = message;
-		this.hoverText = hoverText;
-	}
-
-	public TextConvert(String message, CommandText command) {
-		this.message = message;
-		this.command = command.getCommand();
 	}
 
 	public TextConvert(String message) {
@@ -55,16 +35,70 @@ public class TextConvert {
 
 	}
 
-	public TextComponent convertToTextComponent() {
-		TextComponent text = new TextComponent(C.placeholder(message, player, true));
-		if (hoverText != null) {
-			BaseComponent[] hoverText = TextComponent.fromLegacyText(C.placeholder(this.hoverText, player, true));
-			text.setHoverEvent(new HoverEvent(Action.SHOW_TEXT, hoverText));
+	public TextConvert set(String placeholder, String message, MessageManager... manager) {
+		for (int i = 0; i < StringUtils.countMatches(this.message, placeholder); i++) {
+			placeholders.add(new TextComponentPlaceholder(placeholder, message, manager));
 		}
-		if (command != null) {
-			text.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, command));
+		return this;
+	}
+
+	public TextComponent convert() {
+		TextComponent main = new TextComponent();
+		if (!placeholders.isEmpty()) {
+			for (TextComponentPlaceholder placeholder : placeholders) {
+				String msg = placeholder.getMessage();
+				String hvr = placeholder.getActionMessage(net.pyrix.mc.factions.utils.MessageManager.Action.SHOW_TEXT);
+				String cmd = placeholder.getActionMessage(net.pyrix.mc.factions.utils.MessageManager.Action.RUN_COMMAND);
+				String sgt = placeholder.getActionMessage(net.pyrix.mc.factions.utils.MessageManager.Action.SUGGEST_COMMAND);
+				TextComponent text = new TextComponent(C.placeholder(msg, player, true));
+				if (hvr != null) {
+					BaseComponent[] hoverText = TextComponent.fromLegacyText(C.placeholder(hvr, player, true));
+					text.setHoverEvent(new HoverEvent(Action.SHOW_TEXT, hoverText));
+				}
+				if (cmd != null) {
+					text.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, cmd));
+				}
+				if (sgt != null) {
+					text.setClickEvent(new ClickEvent(ClickEvent.Action.SUGGEST_COMMAND, sgt));
+				}
+				placeholder.setTextComponent(text);
+			}
+
+			List<TextComponentPlaceholder> ph = new ArrayList<TextComponentPlaceholder>();
+			int largestValue = 0;
+			String storedPlaceholder = "";
+			int previousIndex = 0;
+			for (TextComponentPlaceholder placeholder : placeholders) {
+				String p = placeholder.getPlaceholder();
+				int index = message.indexOf(p);
+				if (storedPlaceholder.equals(p)) {
+					index = message.indexOf(p, previousIndex + 1);
+				}
+				if (index > largestValue) {
+					ph.add(placeholder);
+					largestValue = index;
+				} else {
+					TextComponentPlaceholder place = ph.remove(ph.size() - 1);
+					ph.add(placeholder);
+					ph.add(place);
+				}
+				previousIndex = index;
+				storedPlaceholder = p;
+			}
+
+			int c = 0;
+			int from = 0;
+			for (TextComponentPlaceholder placeholder : ph) {
+				from = message.indexOf(placeholder.getPlaceholder(), from + 1);
+				main.addExtra(new TextComponent(C.placeholder(message.substring(c, from), player, true)));
+				main.addExtra(placeholder.getTextComponent());
+				c = from + placeholder.getPlaceholder().length();
+			}
+		} else {
+			main = new TextComponent(C.placeholder(message, player, true));
 		}
-		return text;
+		return main;
+
 	}
 
 }
