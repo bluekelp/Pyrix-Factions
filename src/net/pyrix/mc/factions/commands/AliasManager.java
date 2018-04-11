@@ -1,7 +1,9 @@
 package net.pyrix.mc.factions.commands;
 
 import java.lang.reflect.InvocationTargetException;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 import java.util.Set;
 
 import org.bukkit.command.Command;
@@ -9,17 +11,17 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.reflections.Reflections;
-import org.reflections.scanners.SubTypesScanner;
 
 public class AliasManager implements CommandExecutor {
 
-	private Reflections reflections = new Reflections("net.pyrix.mc.factions.commands.faction", new SubTypesScanner(false));;
+	private Reflections reflections = new Reflections("net.pyrix.mc.factions.commands.faction");
 
 	protected final Set<Class<? extends FactionsCommand>> commands = reflections.getSubTypesOf(FactionsCommand.class);
 
 	@Override
 	// Called when player runs /f /fac or /faction
 	public boolean onCommand(CommandSender sender, Command cmd, String alias, String[] args) {
+		args = convertToLowerCase(args);
 		if (sender instanceof Player) {
 			Player player = (Player) sender;
 			if (!player.hasPermission("pfacs.use")) {
@@ -40,6 +42,14 @@ public class AliasManager implements CommandExecutor {
 			}
 		}
 		return false;
+	}
+
+	private String[] convertToLowerCase(String[] args) {
+		List<String> arguments = new ArrayList<String>();
+		for (String s : args) {
+			arguments.add(s.toLowerCase());
+		}
+		return arguments.toArray(new String[arguments.size()]);
 	}
 
 }

@@ -3,7 +3,7 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>net.pyrix.mc.factions.Factions</groupId>
   <artifactId>PyrixFactions</artifactId>
-  <version>0.0.1-SNAPSHOT</version>
+  <version>0.1.0-ALPHA-Build.24</version>
   <build>
     <sourceDirectory>src</sourceDirectory>
     <resources>
@@ -12,6 +12,7 @@
         <directory>src</directory>
         <includes>
           <include>plugin.yml</include>
+          <include>config.yml</include>
         </includes>
       </resource>
     </resources>

@@ -68,6 +68,7 @@ public class TextConvert {
 			int largestValue = 0;
 			String storedPlaceholder = "";
 			int previousIndex = 0;
+			// organize placeholders in order
 			for (TextComponentPlaceholder placeholder : placeholders) {
 				String p = placeholder.getPlaceholder();
 				int index = message.indexOf(p);
@@ -88,11 +89,15 @@ public class TextConvert {
 
 			int c = 0;
 			int from = 0;
-			for (TextComponentPlaceholder placeholder : ph) {
+			for (int counter = 0; counter < ph.size(); counter++) {
+				TextComponentPlaceholder placeholder = ph.get(counter);
 				from = message.indexOf(placeholder.getPlaceholder(), from + 1);
 				main.addExtra(new TextComponent(C.placeholder(message.substring(c, from), player, true)));
 				main.addExtra(placeholder.getTextComponent());
 				c = from + placeholder.getPlaceholder().length();
+				if (counter + 1 == ph.size()) {
+					main.addExtra(new TextComponent(C.placeholder(message.substring(c, message.length()), player, true)));
+				}
 			}
 		} else {
 			main = new TextComponent(C.placeholder(message, player, true));

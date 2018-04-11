@@ -4,6 +4,7 @@ import java.io.File;
 import java.lang.reflect.InvocationTargetException;
 import java.util.Set;
 
+import org.bukkit.ChatColor;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.reflections.Reflections;
 import org.reflections.scanners.SubTypesScanner;
@@ -21,9 +22,14 @@ public class Factions extends JavaPlugin {
 	public void onEnable() {
 		factions = this;
 
-		if (!factionsDir.exists()) {
-			factionsDir.mkdir();
+		if (!new File(this.getDataFolder(), "config.yml").exists()) {
+			System.out.println(ChatColor.YELLOW + "No Config Found! Generating a new one...");
+			this.saveDefaultConfig(); // Retrieves config.yml stored in plugin
 		}
+
+			if (!factionsDir.exists()) {
+				factionsDir.mkdir();
+			}
 
 		Set<Class<? extends Manager>> debugClasses = initializeClasses();
 		if (debugClasses != null) {
