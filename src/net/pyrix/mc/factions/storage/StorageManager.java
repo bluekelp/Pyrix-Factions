@@ -1,6 +1,7 @@
 package net.pyrix.mc.factions.storage;
 
 import net.pyrix.mc.factions.Manager;
+import net.pyrix.mc.factions.storage.files.LanguageStorage;
 
 public class StorageManager extends Manager {
 
@@ -9,6 +10,7 @@ public class StorageManager extends Manager {
 	public FPlayerStorage FPlayerStorage;
 	public FactionStorage FactionStorage;
 	public ConfigurationStorage ConfigurationStorage;
+	public LanguageStorage LanguageStorage;
 
 	public StorageManager() {
 		onEnable();
@@ -20,5 +22,6 @@ public class StorageManager extends Manager {
 		FPlayerStorage = new FPlayerStorage();
 		FactionStorage = new FactionStorage();
 		ConfigurationStorage = new ConfigurationStorage();
+		LanguageStorage = new LanguageStorage();
 	}
 }

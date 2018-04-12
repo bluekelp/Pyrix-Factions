@@ -9,9 +9,12 @@ import org.bukkit.plugin.java.JavaPlugin;
 import org.reflections.Reflections;
 import org.reflections.scanners.SubTypesScanner;
 
+import net.pyrix.mc.factions.storage.StorageManager;
+
 public class Factions extends JavaPlugin {
 
-	File factionsDir = new File(this.getDataFolder() + "/factions");
+	final File factionsDir = new File(this.getDataFolder() + "/factions");
+	final File territoryDir = new File(this.getDataFolder() + "/territories");
 
 	private static Factions factions;
 
@@ -27,9 +30,13 @@ public class Factions extends JavaPlugin {
 			this.saveDefaultConfig(); // Retrieves config.yml stored in plugin
 		}
 
-			if (!factionsDir.exists()) {
-				factionsDir.mkdir();
-			}
+		if (!factionsDir.exists()) {
+			factionsDir.mkdir();
+		}
+
+		if (!territoryDir.exists()) {
+			territoryDir.mkdir();
+		}
 
 		Set<Class<? extends Manager>> debugClasses = initializeClasses();
 		if (debugClasses != null) {
@@ -40,6 +47,8 @@ public class Factions extends JavaPlugin {
 			return;
 		}
 		getLogger().info("PyrixFactions successfully initialized! ^ω^");
+
+		StorageManager.get.LanguageStorage.setup(this);
 
 	}
 
