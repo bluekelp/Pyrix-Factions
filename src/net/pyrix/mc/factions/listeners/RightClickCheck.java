@@ -38,7 +38,6 @@ public class RightClickCheck implements Listener {
 	public void onRightClickWithWand(PlayerInteractEvent e) {
 		Player player = e.getPlayer();
 		Action action = e.getAction();
-		Bukkit.broadcastMessage("1");
 		if (action == Action.RIGHT_CLICK_BLOCK && PLAYERS_WITH_WANDS.containsKey(player.getUniqueId())) {
 			Bukkit.broadcastMessage("2");
 			ItemStack item = player.getInventory().getItemInMainHand();
