@@ -31,10 +31,22 @@ public class AliasManager implements CommandExecutor {
 		for (Class<? extends FactionsCommand> command : commands) {
 			try {
 				for (String[] arguments : (String[][]) command.getDeclaredMethod("getArgs").invoke(command.getConstructor().newInstance())) {
-					if (Arrays.equals(arguments, args)) {
-						return (boolean) command.getDeclaredMethod("onCommand", CommandSender.class, Command.class, String[].class).invoke(command.getConstructor().newInstance(),
-								sender, cmd, args);
+					if (Arrays.asList(arguments).contains("%?")) {
+						List<String> newArgs = new ArrayList<String>();
+						for (int e = 0; e < arguments.length && e < args.length; e++) {
+							String element = arguments[e];
+							if (element.equals("%?")) {
+								element = args[e];
+							}
+							newArgs.add(element);
+						}
+						arguments = newArgs.toArray(new String[newArgs.size()]);
+						if (Arrays.equals(arguments, args)) {
+							return (boolean) command.getDeclaredMethod("onCommand", CommandSender.class, Command.class, String[].class).invoke(command.getConstructor()
+									.newInstance(), sender, cmd, args);
+						}
 					}
+
 				}
 			} catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException | NoSuchMethodException | SecurityException | InstantiationException e) {
 				// TODO Auto-generated catch block

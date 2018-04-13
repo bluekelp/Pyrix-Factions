@@ -7,7 +7,6 @@ import java.util.Set;
 import org.bukkit.ChatColor;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.reflections.Reflections;
-import org.reflections.scanners.SubTypesScanner;
 
 import net.pyrix.mc.factions.storage.StorageManager;
 
@@ -54,7 +53,7 @@ public class Factions extends JavaPlugin {
 
 	private Set<Class<? extends Manager>> initializeClasses() {
 		// Initializes only classes that extend Manager first
-		Reflections reflections = new Reflections("net.pyrix.mc.factions", new SubTypesScanner(false));
+		Reflections reflections = new Reflections("net.pyrix.mc.factions");
 
 		Set<Class<? extends Manager>> allManagerClasses = reflections.getSubTypesOf(Manager.class);
 		for (Class<?> c : allManagerClasses) {
