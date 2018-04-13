@@ -57,7 +57,6 @@ public class RightClickCheck implements Listener {
 	@EventHandler
 	public void onInventoryClick(InventoryClickEvent e) {
 		Player player = (Player) e.getWhoClicked();
-		Bukkit.broadcastMessage("1");
 		Bukkit.broadcastMessage("Inventory: " + player.getInventory().getType());
 		if (PLAYERS_WITH_WANDS.containsKey(player.getUniqueId()) && (e.getClickedInventory().getType() == InventoryType.PLAYER || e.getClickedInventory()
 				.getType() == InventoryType.CREATIVE)) {
