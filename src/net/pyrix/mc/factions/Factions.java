@@ -13,6 +13,7 @@ import net.pyrix.mc.factions.storage.StorageManager;
 public class Factions extends JavaPlugin {
 
 	final File factionsDir = new File(this.getDataFolder() + "/factions");
+	final File playersDir = new File(this.getDataFolder() + "/players");
 	final File territoryDir = new File(this.getDataFolder() + "/territories");
 
 	private static Factions factions;
@@ -31,6 +32,10 @@ public class Factions extends JavaPlugin {
 
 		if (!factionsDir.exists()) {
 			factionsDir.mkdir();
+		}
+
+		if (!playersDir.exists()) {
+			playersDir.mkdir();
 		}
 
 		if (!territoryDir.exists()) {
@@ -59,6 +64,7 @@ public class Factions extends JavaPlugin {
 		for (Class<?> c : allManagerClasses) {
 			try {
 				c.getDeclaredMethod("onEnable").invoke(c.getConstructor().newInstance());
+				getLogger().info("Debug: Enabled -> " + c.getSimpleName());
 			} catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException | NoSuchMethodException | SecurityException | InstantiationException e) {
 				e.printStackTrace();
 				return allManagerClasses;

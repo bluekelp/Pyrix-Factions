@@ -41,10 +41,10 @@ public class AliasManager implements CommandExecutor {
 							newArgs.add(element);
 						}
 						arguments = newArgs.toArray(new String[newArgs.size()]);
-						if (Arrays.equals(arguments, args)) {
-							return (boolean) command.getDeclaredMethod("onCommand", CommandSender.class, Command.class, String[].class).invoke(command.getConstructor()
-									.newInstance(), sender, cmd, args);
-						}
+					}
+					if (Arrays.equals(arguments, args)) {
+						return (boolean) command.getDeclaredMethod("onCommand", CommandSender.class, Command.class, String[].class).invoke(command.getConstructor().newInstance(),
+								sender, cmd, args);
 					}
 
 				}
