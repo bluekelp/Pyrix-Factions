@@ -1,6 +1,5 @@
 package net.pyrix.mc.factions.territories.mechanics;
 
-import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.block.Block;
 import org.bukkit.scheduler.BukkitRunnable;
@@ -27,7 +26,6 @@ public class TerritoryMonitor extends BukkitRunnable {
 		for (Territory territory : TerritoryManager.i.getStoredTerritories()) {
 			for (Block block : territory.getRegion()) {
 				if (block.getLocation().equals(location)) {
-					Bukkit.broadcastMessage("Inside territory!");
 					return territory;
 				}
 			}
