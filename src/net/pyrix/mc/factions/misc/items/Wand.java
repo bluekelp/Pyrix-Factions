@@ -14,23 +14,48 @@ import net.pyrix.mc.factions.utils.C;
 
 public class Wand {
 
-	public ItemStack getWand() {
+	private final String TerritoryLorePrefix = "&7&oTerritory: &8";
+
+	public ItemStack getWand(String name) {
 		ItemStack wand = new ItemStack(Material.BLAZE_ROD, 1);
 		wand.addUnsafeEnchantment(Enchantment.DURABILITY, -1);
 		ItemMeta meta = wand.getItemMeta();
-		meta.setLore(new ArrayList<String>(Arrays.asList(new String[] { C.color("&c&oDrop me to remove me!") })));
+		if (name == "" || name == null) {
+			meta.setLore(new ArrayList<String>(Arrays.asList(new String[] { C.color("&c&oDrop me to remove me!"), })));
+		} else {
+			meta.setLore(new ArrayList<String>(Arrays.asList(new String[] { C.color(TerritoryLorePrefix + name), C.color("&c&oDrop me to remove me!"), })));
+		}
 		meta.setDisplayName(C.color("&9&l&oTerritory Wand"));
 		wand.setItemMeta(meta);
 		return wand;
 	}
 
-	public boolean hasWand(Player player) {
+	public ItemStack getWand() {
+		return getWand("");
+	}
+
+	public String getTerritorialName(ItemStack wand) {
+		if (wand == null || !wand.hasItemMeta()) {
+			return null;
+		}
+		if (wand.getItemMeta().getLore().isEmpty()) {
+			return null;
+		}
+		return wand.getItemMeta().getLore().get(0).replace(C.color(TerritoryLorePrefix), "");
+	}
+
+	public ItemStack getWand(Player player) {
 		for (ItemStack i : player.getInventory().getStorageContents()) {
 			if (isWand(i)) {
-				return true;
+				return i;
 			}
 		}
-		return false;
+		return null;
+	}
+
+	public boolean hasWand(Player player) {
+		ItemStack wand = getWand(player);
+		return wand != null ? true : false;
 	}
 
 	@SuppressWarnings("deprecation")
@@ -52,11 +77,10 @@ public class Wand {
 		if (item == null || !item.hasItemMeta()) {
 			return false;
 		}
-
 		ItemStack wand = getWand();
 		ItemMeta wandMeta = wand.getItemMeta();
 		ItemMeta itemMeta = item.getItemMeta();
-		return sameEnchants(item.getEnchantments(), wand.getEnchantments()) && itemMeta.getLore().equals(wandMeta.getLore()) && itemMeta.getDisplayName().equals(wandMeta
+		return sameEnchants(item.getEnchantments(), wand.getEnchantments()) && itemMeta.getLore().containsAll(wandMeta.getLore()) && itemMeta.getDisplayName().equals(wandMeta
 				.getDisplayName());
 	}
 

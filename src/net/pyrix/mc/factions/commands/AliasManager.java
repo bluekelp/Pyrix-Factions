@@ -21,6 +21,7 @@ public class AliasManager implements CommandExecutor {
 	@Override
 	// Called when player runs /f /fac or /faction
 	public boolean onCommand(CommandSender sender, Command cmd, String alias, String[] args) {
+		String[] origCaseArgs = args.clone();
 		args = convertToLowerCase(args);
 		if (sender instanceof Player) {
 			Player player = (Player) sender;
@@ -31,7 +32,7 @@ public class AliasManager implements CommandExecutor {
 		for (Class<? extends FactionsCommand> command : commands) {
 			try {
 				for (String[] arguments : (String[][]) command.getDeclaredMethod("getArgs").invoke(command.getConstructor().newInstance())) {
-					if (Arrays.asList(arguments).contains("%?")) {
+					if (Arrays.asList(arguments).contains("%?") && arguments.length == args.length) {
 						List<String> newArgs = new ArrayList<String>();
 						for (int e = 0; e < arguments.length && e < args.length; e++) {
 							String element = arguments[e];
@@ -43,8 +44,10 @@ public class AliasManager implements CommandExecutor {
 						arguments = newArgs.toArray(new String[newArgs.size()]);
 					}
 					if (Arrays.equals(arguments, args)) {
+						// Bukkit.broadcastMessage("Class: " + command.getSimpleName() + " Class Args: "
+						// + Arrays.asList(arguments) + " Cmd Args: " + Arrays.asList(args));
 						return (boolean) command.getDeclaredMethod("onCommand", CommandSender.class, Command.class, String[].class).invoke(command.getConstructor().newInstance(),
-								sender, cmd, args);
+								sender, cmd, origCaseArgs);
 					}
 
 				}

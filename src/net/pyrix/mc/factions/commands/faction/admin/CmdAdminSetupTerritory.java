@@ -19,7 +19,7 @@ public class CmdAdminSetupTerritory extends FactionsCommand {
 			if (player.hasPermission("pfacs.admin")) {
 				if (!ItemManager.get.Wand.hasWand(player)) {
 					final String territoryName = args[3];
-					player.getInventory().setItem(player.getInventory().firstEmpty(), ItemManager.get.Wand.getWand());
+					player.getInventory().setItem(player.getInventory().firstEmpty(), ItemManager.get.Wand.getWand(territoryName));
 					return true;
 				} else {
 					player.sendMessage(C.color("&c&oYou already have a wand!"));

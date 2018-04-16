@@ -2,12 +2,17 @@ package net.pyrix.mc.factions;
 
 import java.io.File;
 import java.lang.reflect.InvocationTargetException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Set;
 
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.reflections.Reflections;
 
+import net.pyrix.mc.factions.player.FPlayer;
 import net.pyrix.mc.factions.storage.StorageManager;
 
 public class Factions extends JavaPlugin {
@@ -54,6 +59,17 @@ public class Factions extends JavaPlugin {
 
 		StorageManager.get.LanguageStorage.setup(this);
 
+	}
+
+	public static FPlayer[] getAllOnlineFPlayers() {
+		List<FPlayer> FPlayers = new ArrayList<FPlayer>();
+		for (Player player : Bukkit.getOnlinePlayers()) {
+			FPlayer fplayer = StorageManager.get.FPlayerStorage.get(player);
+			if (fplayer != null) {
+				FPlayers.add(fplayer);
+			}
+		}
+		return FPlayers.toArray(new FPlayer[FPlayers.size()]);
 	}
 
 	private Set<Class<? extends Manager>> initializeClasses() {

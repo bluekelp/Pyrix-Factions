@@ -9,7 +9,7 @@ import net.pyrix.mc.factions.player.FPlayer;
 
 public class FPlayerStorage {
 
-	static List<FPlayer> players = new ArrayList<FPlayer>();
+	private List<FPlayer> players = new ArrayList<FPlayer>();
 
 	public void add(FPlayer player) {
 		players.add(player);
@@ -17,7 +17,7 @@ public class FPlayerStorage {
 
 	public FPlayer get(Player player) {
 		for (FPlayer p : players) {
-			if (p.getPlayer().equals(player)) {
+			if (p.getPlayer().getName().equals(player.getName())) {
 				return p;
 			}
 		}
