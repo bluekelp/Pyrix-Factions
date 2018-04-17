@@ -28,7 +28,6 @@ import net.pyrix.mc.factions.Factions;
 import net.pyrix.mc.factions.misc.ItemManager;
 import net.pyrix.mc.factions.player.FPlayer;
 import net.pyrix.mc.factions.territories.Territory;
-import net.pyrix.mc.factions.territories.TerritoryManager;
 import net.pyrix.mc.factions.utils.C;
 
 public class RightClickCheck implements Listener {
@@ -68,9 +67,7 @@ public class RightClickCheck implements Listener {
 					clearBlocks(player);
 					player.sendMessage(C.color("&a&oSuccessfully set area for territory, &2&o" + ItemManager.get.Wand.getTerritorialName(wand) + "&a!"));
 				} else {
-					Territory territory = new Territory(player, ItemManager.get.Wand.getTerritorialName(wand), block.getLocation());
-					firstLocation.put(player.getUniqueId(), territory);
-					TerritoryManager.i.storeTerritory(territory);
+					firstLocation.put(player.getUniqueId(), new Territory(player, ItemManager.get.Wand.getTerritorialName(wand), block.getLocation()));
 				}
 
 			}

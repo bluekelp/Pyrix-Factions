@@ -6,23 +6,34 @@ import org.bukkit.entity.Player;
 
 import net.pyrix.mc.factions.commands.FactionsCommand;
 import net.pyrix.mc.factions.misc.ItemManager;
+import net.pyrix.mc.factions.territories.TerritoryManager;
 import net.pyrix.mc.factions.utils.C;
 
 public class CmdAdminSetupTerritory extends FactionsCommand {
 
-	private String[][] args = { { "admin", "setup", "territory", "%?" } };
+	private String[][] args = { { "admin", "remove", "territory", "%?" }, { "admin", "setup", "territory", "%?" } };
 
 	@Override
 	public boolean onCommand(CommandSender sender, Command cmd, String[] args) {
 		if (sender instanceof Player) {
 			Player player = (Player) sender;
 			if (player.hasPermission("pfacs.admin")) {
-				if (!ItemManager.get.Wand.hasWand(player)) {
-					final String territoryName = args[3];
-					player.getInventory().setItem(player.getInventory().firstEmpty(), ItemManager.get.Wand.getWand(territoryName));
-					return true;
+				if (args[1].equalsIgnoreCase(this.args[1][1])) {
+					if (!ItemManager.get.Wand.hasWand(player)) {
+						final String territoryName = args[3];
+						player.getInventory().setItem(player.getInventory().firstEmpty(), ItemManager.get.Wand.getWand(territoryName));
+						return true;
+					} else {
+						player.sendMessage(C.color("&c&oYou already have a wand!"));
+						return true;
+					}
 				} else {
-					player.sendMessage(C.color("&c&oYou already have a wand!"));
+					final String territoryName = args[3];
+					if (TerritoryManager.i.removeTerritories(territoryName)) {
+						player.sendMessage(C.color("&a&oSuccessfully removed " + territoryName + "!"));
+						return true;
+					}
+					player.sendMessage(C.color("&c&oUnsuccessfully removed " + territoryName + ", check to be sure you typed in the name correctly."));
 					return true;
 				}
 			}

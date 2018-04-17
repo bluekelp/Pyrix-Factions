@@ -9,8 +9,8 @@ public class FactionStorage {
 
 	static List<Faction> factions = new ArrayList<Faction>();
 
-	public void add(Faction player) {
-		factions.add(player);
+	public void add(Faction faction) {
+		factions.add(faction);
 	}
 
 	public Faction[] getFactions() {

@@ -1,7 +1,6 @@
 package net.pyrix.mc.factions.territories;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 
 import org.bukkit.entity.Player;
 
@@ -25,8 +24,32 @@ public class TerritoryManager extends Manager {
 		storedTerritories.add(territory);
 	}
 
-	public void removeTerritories(Territory... territories) {
-		storedTerritories.removeAll(Arrays.asList(territories));
+	public boolean removeTerritories(Territory... territories) {
+		boolean removed = false;
+		for (Territory t : territories) {
+			if (t == null) {
+				continue;
+			}
+			removed = removeTerritories(t.getName());
+		}
+		return removed;
+	}
+
+	public boolean removeTerritories(String... territories) {
+		boolean removed = false;
+		for (Territory t : storedTerritories) {
+			if (t == null) {
+				continue;
+			}
+			for (String name : territories) {
+				if (t.getName().equalsIgnoreCase(name)) {
+					t.remove();
+					removed = true;
+				}
+			}
+
+		}
+		return removed;
 	}
 
 	public ArrayList<Territory> getStoredTerritories() {

@@ -5,15 +5,21 @@ import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
+import java.util.UUID;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.Location;
+import org.bukkit.World;
+import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.reflections.Reflections;
 
 import net.pyrix.mc.factions.player.FPlayer;
 import net.pyrix.mc.factions.storage.StorageManager;
+import net.pyrix.mc.factions.territories.Territory;
+import net.pyrix.mc.factions.territories.TerritoryManager;
 
 public class Factions extends JavaPlugin {
 
@@ -55,10 +61,29 @@ public class Factions extends JavaPlugin {
 			}
 			return;
 		}
+
+		loadTerritories();
+
 		getLogger().info("PyrixFactions successfully initialized! ^ω^");
 
 		StorageManager.get.LanguageStorage.setup(this);
 
+	}
+
+	private void loadTerritories() {
+		for (File territoryFile : territoryDir.listFiles()) {
+			YamlConfiguration tConfig = YamlConfiguration.loadConfiguration(territoryFile);
+			TerritoryManager.i.storeTerritory(new Territory(Bukkit.getPlayer((UUID) tConfig.get("Owner")), tConfig.getString("TerritoryName"), new Location((World) tConfig.get(
+					"Locations.Point1.world"), tConfig.getDouble("Locations.Point1.x"), tConfig.getDouble("Locations.Point1.y"), tConfig.getDouble("Locations.Point1.z")),
+					new Location((World) tConfig.get("Locations.Point2.world"), tConfig.getDouble("Locations.Point2.x"), tConfig.getDouble("Locations.Point2.y"), tConfig.getDouble(
+							"Locations.Point2.z"))));
+		}
+	}
+
+	public void onDisable() {
+		for (Territory t : TerritoryManager.i.getStoredTerritories()) {
+			t.save();
+		}
 	}
 
 	public static FPlayer[] getAllOnlineFPlayers() {

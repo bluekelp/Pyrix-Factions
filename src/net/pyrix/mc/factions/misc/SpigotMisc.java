@@ -16,12 +16,13 @@ public class SpigotMisc {
 		this.player = player;
 	}
 
-	public void sendActionBarMessage(String message) {
+	public void sendActionBarMessage(String message, long ticks) {
+		player.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(C.placeholder(message, player, true)));
 		new BukkitRunnable() {
 			public void run() {
-				player.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(C.placeholder(message, player, true)));
+				player.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(""));
 			}
-		}.runTaskTimerAsynchronously(Factions.getInstance(), 0L, 2L);
+		}.runTaskLater(Factions.getInstance(), ticks);
 	}
 
 }
