@@ -20,6 +20,7 @@ public class CmdFactionCreate extends FactionsCommand {
 				String factionName = args[1];
 				new Faction(player, factionName);
 				player.sendMessage(C.color("&9&oSuccessfully created faction, &f" + factionName + "&9!"));
+				return true;
 			}
 		}
 		return false;

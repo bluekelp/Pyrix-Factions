@@ -24,9 +24,18 @@ public class TerritoryManager extends Manager {
 		storedTerritories.add(territory);
 	}
 
+	public Territory getTerritory(String name) {
+		for (Territory t : storedTerritories) {
+			if (t.getName().equals(name)) {
+				return t;
+			}
+		}
+		return null;
+	}
+
 	public boolean removeTerritories(Territory... territories) {
 		boolean removed = false;
-		for (Territory t : territories) {
+		for (Territory t : territories.clone()) {
 			if (t == null) {
 				continue;
 			}
@@ -37,13 +46,14 @@ public class TerritoryManager extends Manager {
 
 	public boolean removeTerritories(String... territories) {
 		boolean removed = false;
-		for (Territory t : storedTerritories) {
+		for (Territory t : new ArrayList<Territory>(storedTerritories)) {
 			if (t == null) {
 				continue;
 			}
 			for (String name : territories) {
 				if (t.getName().equalsIgnoreCase(name)) {
-					t.remove();
+					t.destroy();
+					storedTerritories.remove(t);
 					removed = true;
 				}
 			}

@@ -4,6 +4,7 @@ import org.bukkit.Location;
 import org.bukkit.Particle;
 import org.bukkit.entity.ArmorStand;
 import org.bukkit.event.player.PlayerTeleportEvent.TeleportCause;
+import org.bukkit.inventory.ItemStack;
 import org.bukkit.scheduler.BukkitRunnable;
 
 public class TerritorySymbolAnimation extends BukkitRunnable {
@@ -12,6 +13,21 @@ public class TerritorySymbolAnimation extends BukkitRunnable {
 
 	public TerritorySymbolAnimation(ArmorStand... ass) {
 		this.ass = ass; // ass = a rmor s tand s
+	}
+
+	public void setSymbol(ItemStack symbol) {
+		ArmorStand as = ass[0];
+		as.setHelmet(symbol);
+		ass[0] = as;
+	}
+
+	public void setSymbol(Location loc) {
+		ass[0].teleport(loc);
+		ass[1].teleport(new Location(loc.getWorld(), loc.getX(), loc.getY() + 1.5, loc.getZ()));
+	}
+
+	public ArmorStand getSymbol() {
+		return ass[0];
 	}
 
 	private boolean UPWARD = false;

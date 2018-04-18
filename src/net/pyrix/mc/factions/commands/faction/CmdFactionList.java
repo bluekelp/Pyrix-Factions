@@ -7,10 +7,11 @@ import net.pyrix.mc.factions.commands.FactionsCommand;
 
 public class CmdFactionList extends FactionsCommand {
 
-	private String[][] args = { { "l" }, { "list" } };
+	private String[][] args = { { "l" }, { "l", "%?" }, { "list" }, { "list", "%?" } };
 
 	@Override
 	public boolean onCommand(CommandSender sender, Command cmd, String[] args) {
+
 		return false;
 	}
 

@@ -16,19 +16,15 @@ public class FPlayer {
 	private Faction faction;
 	private FactionRole role = FactionRole.Member;
 
-	public FPlayer(Player player) {
+	public FPlayer(Player player, Faction faction) {
 		FPlayer.player = player;
+		this.faction = faction;
 		StorageManager.get.FPlayerStorage.add(this);
 	}
 
-	public FPlayer(Player player, FactionRole role) {
-		this(player);
-		this.role = role;
-	}
-
 	public FPlayer(Player player, FactionRole role, Faction faction) {
-		this(player, role);
-		this.faction = faction;
+		this(player, faction);
+		this.role = role;
 	}
 
 	public Player getPlayer() {
@@ -38,6 +34,11 @@ public class FPlayer {
 	public void join(Faction faction) {
 		this.faction = faction;
 		faction.addMember(this);
+	}
+
+	public void quit() {
+		this.faction.removeMember(this);
+		StorageManager.get.FPlayerStorage.remove(this);
 	}
 
 	public SpigotMisc spigot() {

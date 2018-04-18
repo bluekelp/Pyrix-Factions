@@ -5,6 +5,7 @@ import java.util.UUID;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
+import net.pyrix.mc.factions.faction.Faction;
 import net.pyrix.mc.factions.player.FPlayer;
 import net.pyrix.mc.factions.storage.StorageManager;
 
@@ -22,9 +23,9 @@ public class FPyrix {
 		return StorageManager.get.FPlayerStorage.get(player);
 	}
 
-	public static FPlayer convertFromPlayer(Player player) {
+	public static FPlayer convertFromPlayer(Player player, Faction faction) {
 		if (!StorageManager.get.FPlayerStorage.exists(player))
-			return new FPlayer(player);
+			return new FPlayer(player, faction);
 		return getFPlayer(player);
 	}
 

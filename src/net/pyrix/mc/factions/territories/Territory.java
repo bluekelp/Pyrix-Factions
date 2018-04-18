@@ -13,6 +13,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
 import net.pyrix.mc.factions.Factions;
+import net.pyrix.mc.factions.faction.Faction;
 import net.pyrix.mc.factions.territories.animations.TerritorySymbolAnimation;
 import net.pyrix.mc.factions.utils.C;
 
@@ -25,6 +26,7 @@ public class Territory {
 	private TerritorySymbolAnimation animation;
 	private Block[] blocks = null;
 	private File territoryFile;
+	private Faction claimed;
 
 	public Territory(Player Owner, String name, Location loc1) {
 		this.loc1 = loc1;
@@ -44,6 +46,14 @@ public class Territory {
 		TerritoryManager.i.storeTerritory(this);
 	}
 
+	public void setFactionClaim(Faction f) {
+		this.claimed = f;
+	}
+
+	public Faction getFactionClaim() {
+		return this.claimed;
+	}
+
 	public void save() {
 		YamlConfiguration config = YamlConfiguration.loadConfiguration(territoryFile);
 
@@ -61,9 +71,8 @@ public class Territory {
 		config.set("Locations.Point2.z", this.loc2.getZ());
 	}
 
-	public void remove() {
+	public void destroy() {
 		animation.stop();
-		TerritoryManager.i.removeTerritories(this);
 	}
 
 	public Player getOwner() {
@@ -130,6 +139,10 @@ public class Territory {
 		return blocks.toArray(new Block[blocks.size()]);
 	}
 
+	public TerritorySymbolAnimation getSymbolAnimationMechanic() {
+		return this.animation;
+	}
+
 	private void createIcon() {
 		if (animation != null && (loc1 == null || loc2 == null) && !(loc1.getWorld().equals(loc2.getWorld()))) {
 			return;
@@ -160,7 +173,7 @@ public class Territory {
 		head.setVisible(false);
 		head.setHelmet(new ItemStack(Material.BANNER, 1, (byte) 15));
 
-		animation = new TerritorySymbolAnimation(as, head);
+		animation = new TerritorySymbolAnimation(head, as);
 		animation.runTaskTimer(Factions.getInstance(), 0L, 1L);
 	}
 

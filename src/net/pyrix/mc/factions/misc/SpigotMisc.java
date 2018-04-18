@@ -17,12 +17,16 @@ public class SpigotMisc {
 	}
 
 	public void sendActionBarMessage(String message, long ticks) {
-		player.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(C.placeholder(message, player, true)));
+		long lastTime = System.currentTimeMillis();
 		new BukkitRunnable() {
 			public void run() {
-				player.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(""));
+				player.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(C.placeholder(message, player, true)));
+				if (System.currentTimeMillis() - lastTime >= ticks) {
+					cancel();
+					return;
+				}
 			}
-		}.runTaskLater(Factions.getInstance(), ticks);
+		}.runTaskAsynchronously(Factions.getInstance());
 	}
 
 }

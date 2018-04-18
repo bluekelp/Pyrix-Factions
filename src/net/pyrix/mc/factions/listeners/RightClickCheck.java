@@ -19,14 +19,12 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.player.PlayerDropItemEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
-import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import net.pyrix.mc.factions.Factions;
 import net.pyrix.mc.factions.misc.ItemManager;
-import net.pyrix.mc.factions.player.FPlayer;
 import net.pyrix.mc.factions.territories.Territory;
 import net.pyrix.mc.factions.utils.C;
 
@@ -106,13 +104,6 @@ public class RightClickCheck implements Listener {
 	}
 
 	// TODO: Remove this listener! Only being used for testing.
-	@EventHandler
-	public void onGeekJoin(PlayerJoinEvent e) {
-		Player player = e.getPlayer();
-		if (player.getName().equals("geekles")) {
-			new FPlayer(player);
-		}
-	}
 
 	private boolean hasWand(Player player) {
 		return ItemManager.get.Wand.hasWand(player);

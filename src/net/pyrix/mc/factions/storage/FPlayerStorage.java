@@ -32,4 +32,8 @@ public class FPlayerStorage {
 		return players.contains(player);
 	}
 
+	public boolean remove(FPlayer player) {
+		return players.remove(player);
+	}
+
 }

@@ -44,6 +44,11 @@ public class ConfigurationStorage {
 			new TextConvert("\n                  &8&m-----=&7&l< &9Commands &7&l>&8&m=-----\n"),
 			new TextConvert("      %c &7[arguments] &8- &9Opens help menu").set("%c", "&7/factions help", new MessageManager(Action.SHOW_TEXT,
 					"&7&oAliases: /[f, fac, factions] [ , ?, h, help])"), new MessageManager(Action.SUGGEST_COMMAND, "/factions help")),
+			new TextConvert("      %c %p &8- &9Allows you to create a faction").set("%c", "&c/faction create").set("%p", "&c[arguments]", new MessageManager(Action.SHOW_TEXT,
+					"&7&oFaction Name"), new MessageManager(Action.SUGGEST_COMMAND, "/faction create [faction name]")),
+			new TextConvert("      %c %p &8- &9Allows you to join a faction").set("%c", "&7/faction join", new MessageManager(Action.SUGGEST_COMMAND,
+					"/faction join [faction name]")).set("%p", "&7[arguments]", new MessageManager(Action.SHOW_TEXT, "&7&oFaction Name")),
+			new TextConvert("      %c &8- &9Allows you to leave a faction").set("%c", "&7/faction quit", new MessageManager(Action.SUGGEST_COMMAND, "/faction quit")),
 			new TextConvert("\n&7&m>=&8&m-------------------------------------------------&7&m=<\n\n") };
 
 	private TextConvert[] CMD_HELP_MESSAGE_FEATURES = {

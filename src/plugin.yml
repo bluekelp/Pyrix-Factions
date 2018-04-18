@@ -6,7 +6,7 @@ author: geekles
 commands:
   factions:
     description: Main alias command for factions. 
-    aliases: [f, fac]
+    aliases: [f, fac, faction]
     permission: pfacs.use
     usage: /faction [args]
 

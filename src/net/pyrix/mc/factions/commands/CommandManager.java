@@ -14,7 +14,7 @@ public class CommandManager extends Manager {
 		initializeAlias();
 	}
 
-	protected String[] aliases = { "f", "fac", "factions" };
+	protected String[] aliases = { "f", "fac", "faction", "factions" };
 
 	private void initializeAlias() {
 		for (String a : aliases) {
