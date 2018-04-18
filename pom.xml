@@ -9,6 +9,16 @@
       <tag>HEAD</tag>
       <url>http://127.0.0.1/dummy</url>
   </scm>  
+  <repositories>
+      <repository>
+          <id>spigot-repo</id>
+          <url>https://hub.spigotmc.org/nexus/content/repositories/snapshots/</url>
+      </repository>
+      <repository>
+          <id>bungeecord-repo</id>
+          <url>https://oss.sonatype.org/content/repositories/snapshots</url>
+      </repository>
+  </repositories>
   <build>
     <sourceDirectory>src</sourceDirectory>
         <resources>
@@ -82,5 +92,23 @@
   		<version>1.4</version>
   		<type>maven-plugin</type>
   	</dependency>
+    <dependency>
+        <groupId>org.spigotmc</groupId>
+        <artifactId>spigot</artifactId>
+        <version>1.12.2-R0.1-SNAPSHOT</version>
+        <scope>provided</scope>
+    </dependency>
+    <dependency>
+        <groupId>net.md-5</groupId>
+        <artifactId>bungeecord-api</artifactId>
+        <version>1.12-SNAPSHOT</version>
+        <scope>provided</scope>
+    </dependency>
+    <dependency>
+        <groupId>org.apache.commons</groupId>
+        <artifactId>commons-lang3</artifactId>
+        <version>3.7</version>
+        <scope>provided</scope>
+    </dependency>
   </dependencies>
 </project>
