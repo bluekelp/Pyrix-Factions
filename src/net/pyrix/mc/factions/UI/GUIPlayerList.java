@@ -34,6 +34,7 @@ public class GUIPlayerList {
 
 	}
 
+	// TODO Prevent players from moving items around in GUI
 	@SuppressWarnings("deprecation")
 	public Inventory getGUI(String title) {
 		Inventory GUI = Bukkit.createInventory(Owner, ((players.length / 9) + 1) * 9, C.placeholder(title, Owner, true));
