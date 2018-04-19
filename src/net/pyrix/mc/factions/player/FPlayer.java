@@ -27,6 +27,10 @@ public class FPlayer {
 		this.role = role;
 	}
 
+	public FactionRole getRole() {
+		return role;
+	}
+
 	public Player getPlayer() {
 		return player;
 	}

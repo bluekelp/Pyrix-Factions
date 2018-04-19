@@ -14,9 +14,11 @@ public class TerritoryMonitor extends BukkitRunnable {
 	@Override
 	public void run() {
 		for (FPlayer FPlayer : Factions.getAllOnlineFPlayers()) {
-			Territory territory = getTerritorialArea(FPlayer);
-			if (territory != null) {
-				FPlayer.spigot().sendActionBarMessage("&9You've entered the, &f" + territory.getName() + "&9 territory!", 20);
+			if (FPlayer.getPlayer() != null) {
+				Territory territory = getTerritorialArea(FPlayer);
+				if (territory != null) {
+					FPlayer.spigot().sendActionBarMessage("&9You've entered the, &f" + territory.getName() + "&9 territory!", 20);
+				}
 			}
 		}
 	}
