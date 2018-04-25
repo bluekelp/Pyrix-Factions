@@ -1,11 +1,11 @@
 package net.pyrix.mc.factions.faction;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import org.bukkit.entity.Player;
 
-import edu.emory.mathcs.backport.java.util.Arrays;
 import net.pyrix.mc.factions.player.FPlayer;
 import net.pyrix.mc.factions.storage.StorageManager;
 import net.pyrix.mc.factions.utils.C;
@@ -68,7 +68,9 @@ public class Faction {
 	}
 
 	public boolean equals(Faction faction) {
-		return this.name.equals(faction.getName()) && this.owner.getName().equals(faction.getOwner().getName()) && members.containsAll(Arrays.asList(faction.getMembers()));
+		return this.name.equals(faction.getName()) &&
+				this.owner.getName().equals(faction.getOwner().getName()) &&
+				members.containsAll(Arrays.asList(faction.getMembers()));
 	}
 
 }
